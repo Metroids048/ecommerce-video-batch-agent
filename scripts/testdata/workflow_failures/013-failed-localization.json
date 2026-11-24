@@ -1,0 +1,19 @@
+{
+  "issues": [
+    {
+      "category": "localization",
+      "operation_id": "backpack-edit",
+      "candidate_id": "candidate-1"
+    },
+    {
+      "category": "localization",
+      "operation_id": "backpack-edit",
+      "candidate_id": "candidate-2"
+    },
+    {
+      "category": "protection",
+      "operation_id": "backpack-edit",
+      "candidate_id": "candidate-2"
+    }
+  ]
+}

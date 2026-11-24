@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "primary": {
+    "id": "wan-3.0-standard",
+    "provider": "RunningHub",
+    "route": "/openapi/v2/alibaba/wan-3.0/reference-to-video",
+    "official_docs": "https://www.runninghub.cn/runninghub-api-doc-cn/api-505575336",
+    "mode": "reference-to-video",
+    "supports_mask": false,
+    "supports_image_reference": true,
+    "limits": {
+      "max_reference_video_seconds_conservative": 15,
+      "max_input_plus_output_seconds": 30,
+      "max_output_seconds": 30
+    },
+    "pilot_parameters": {
+      "resolution": "720P",
+      "aspectRatio": "adaptive",
+      "duration": "5",
+      "audio": false,
+      "promptExtend": false,
+      "watermark": false
+    }
+  },
+  "comparators": [
+    {
+      "id": "wan-3.0-prime",
+      "provider": "RunningHub",
+      "route": "/openapi/v2/alibaba/wan-3.0-prime/reference-to-video",
+      "official_docs": "https://www.runninghub.cn/runninghub-api-doc-cn/api-505922316",
+      "mode": "reference-to-video",
+      "supports_mask": false,
+      "supports_image_reference": true,
+      "limits": {
+        "max_reference_video_seconds_conservative": 15,
+        "max_input_plus_output_seconds": 30,
+        "max_output_seconds": 30
+      },
+      "pilot_parameters": {
+        "resolution": "720P",
+        "aspectRatio": "adaptive",
+        "duration": "5",
+        "audio": false,
+        "promptExtend": false,
+        "watermark": false
+      }
+    }
+  ],
+  "audio_policy": "copy original source audio at assembly; audio=false only disables synthesis",
+  "execution_mode": "production",
+  "remote_calls_allowed": false,
+  "paid_submission_allowed": false,
+  "remote_submission_allowed": false,
+  "media_upload_allowed": false,
+  "local_image_repainting_allowed": false,
+  "scoped_remote_batches": {},
+  "adapter": {
+    "parameters": {
+      "resolution": "720P",
+      "aspectRatio": "adaptive",
+      "audio": false,
+      "promptExtend": false,
+      "watermark": false
+    },
+    "execution_mode": "offline_only"
+  },
+  "execution_mode_reason": "Public defaults. Local intake and review are available; provider access requires user-owned credentials and authorization.",
+  "remote_block_reason": "Remote provider requests and media uploads are disabled by default."
+}
