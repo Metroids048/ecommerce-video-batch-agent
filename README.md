@@ -6,9 +6,17 @@
 
 需要 Python 3.10+ 和 FFmpeg。执行 `python3 -m pip install -r requirements.txt`，并确保 `ffmpeg` 在 PATH 中。可选的原生候选播放检查需要 Chrome 和 Node.js。
 
-先将自己的视频和原始改单放到仓库内的 `cases/demo/`。例如准备 `source.mp4` 和 `request.txt`，再保存 `cases/demo/request.json`。
+以下命令在仓库根目录生成一段带方形标记和音轨的合成样片，以及对应的改单。样片和审查状态保存在本地，可在首次运行后用自己的素材按同一结构建档。
 
-```json
+```sh
+mkdir -p cases/demo
+ffmpeg -n -hide_banner -loglevel error \
+  -f lavfi -i 'color=c=0x354a58:s=320x180:r=24:d=2' \
+  -f lavfi -i 'anullsrc=r=48000:cl=stereo' \
+  -vf 'drawbox=x=235:y=105:w=30:h=30:color=yellow:t=fill' \
+  -t 2 -c:v libx264 -pix_fmt yuv420p -c:a aac cases/demo/source.mp4
+printf '%s\n' '请去掉右下方的黄色标记，保留背景和原音轨。' > cases/demo/request.txt
+cat > cases/demo/request.json <<'JSON'
 {
   "batch_id": "demo",
   "user_input": "cases/demo/request.txt",
@@ -18,11 +26,12 @@
     "operations": [{
       "id": "remove-tag",
       "kind": "remove",
-      "target": "商品旁的小贴纸",
-      "protect": ["商品外观", "画面其他文字", "原声"]
+      "target": "右下方的黄色标记",
+      "protect": ["原背景", "原音轨"]
     }]
   }]
 }
+JSON
 ```
 
 ```sh
@@ -31,7 +40,7 @@ python3 scripts/project.py review-init --case cases/demo/case.json
 python3 scripts/project.py serve --case cases/demo/case.json --port 8766
 ```
 
-启动后访问 <http://127.0.0.1:8766/>。首次建档后可核对原片、保护项和待审状态。任务状态保存在 `runs/<batch_id>/workflow.json`。对有候选的批次，`project.py check --case <case.json>` 核对实际证据绑定，缺少成片或审查项时会报告待完成。
+启动后访问 <http://127.0.0.1:8766/>。首次建档后可核对原片、保护项和待审状态。任务状态保存在 `runs/<batch_id>/workflow.json`。后续批次请使用新的目录和 `batch_id`。对有候选的批次，`project.py check --case <case.json>` 核对实际证据绑定，缺少成片或审查项时会报告待完成。
 
 ## 工作流与边界
 
